@@ -1,71 +1,85 @@
 import React from 'react';
 import {v4 as uuid} from 'uuid'
 import Grid from './components/Grid'
+import Popup from './components/Popup'
+import animations from './animations.json'
 import './css/app.css';
 
 class App extends React.Component {
-    spin = { 
-        scale: 0,
-        rotate: 20,
-        yoyo: true,
-        repeat: 1,
-        duration: 250
-    }
-
     constructor(props) {
         super(props);
 
         this.state = {
+            size: 3,
             score: 0,
             highscore: 0,
             squares: [],
-            animation: null,
-            clickable: true
+            gameOver: false,
+            openPopup: false,
+            lastColor: null,
+            sqAnim: null,
         }
     }
 
-    gameOver = () => {
-        if (this.state.score > this.state.highscore)
-            this.setState({ highscore: this.state.score })
-
-        this.state.squares.forEach((sq) => sq.count = 0)
-
-        alert(`Game Over! \nscore: ${this.state.score}`);
-        this.setState({ score: 0 });
-    }
+    clickable = true
 
     countClick = (id) => {
-        if (this.state.clickable) {
-            var squares = [...this.state.squares]
+        if (this.clickable) {
+            let squares = [...this.state.squares];
 
-            this.setState({
-                animation: this.spin,
-                clickable: false
-            })
+            this.clickable = false;
+            this.setState( {sqAnim: animations.spin} )
 
-            squares.forEach((sq) => {
-                if (sq.id === id) {
-                    if (sq.count === 0) {
-                        sq.count += 1;
-                        this.setState({ score: this.state.score + 1 });
-                    } else {
-                        this.gameOver();
-                    }
-                }
-            })
-            
             setTimeout(() => {
                 squares.sort(() => Math.random() - 0.5)
                 this.setState( {squares: squares} )
             }, 250)
 
             setTimeout(() => {
-                this.setState({
-                    animation: null,
-                    clickable: true
-                })
+                this.setState( {sqAnim: null} )
+                this.clickable = true;
             }, 500)
+
+            console.log(id)
+
+            let resetScores = (sq) => { sq.count = 0 }
+
+            let setScores = (sq) => {
+                if (sq.id === id) {
+                    if (sq.count === 0) {
+                        sq.count += 1;
+                        this.setState( {score: this.state.score + 1} );
+                    } else {
+                        this.setState( {lastColor: sq.color} )
+                        this.gameOver();
+                    }
+                }
+            }
+
+            squares.forEach(id < 0 ? resetScores : setScores)
         }
+    }
+
+    gameOver = () => {
+        this.setState({
+            gameOver: true,
+            openPopup: true
+        })
+
+        if (this.state.score > this.state.highscore)
+            this.setState( {highscore: this.state.score} )
+    }
+
+    closePopup = () => {
+        this.setState({openPopup: false});
+        this.countClick(-1);
+
+        setTimeout(() => {
+            this.setState({
+                gameOver: false,
+                score: 0
+            })
+        }, 500)
     }
 
     componentDidMount() {
@@ -87,14 +101,22 @@ class App extends React.Component {
     }
 
     render() {
+        const {squares, sqAnim} = this.state
+
         return (
             <div className="App">
-                <div className="grid center">
-                    <Grid 
-                        squares={this.state.squares} 
-                        animation={this.state.animation} 
-                        countClick={this.countClick}
-                    />
+                <div className="wrapper center">
+                    <header>
+                        <h1> Colors </h1>
+                    </header>
+
+                    <div className="grid">
+                        <Grid squares={squares} countClick={this.countClick} animation={sqAnim}/>
+                    </div>
+
+                    <footer>
+                        <p> Don't click the same color twice </p>
+                    </footer>
                 </div>
             </div>
         );

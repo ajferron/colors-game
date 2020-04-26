@@ -1,0 +1,18 @@
+{
+    "spinDown": { 
+        "scale": 0,
+        "rotate": 20,
+        "opacity": 0,
+        "yoyo": true,
+        "repeat": 1,
+        "duration": 250
+    },
+
+    "appear": {
+        "scale": 1,
+        "opacity": 1,
+        "yoyo": true,
+        "repeat": -1,
+        "duration": 1000
+    }
+}
