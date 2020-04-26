@@ -101,7 +101,8 @@ class App extends React.Component {
     }
 
     render() {
-        const {squares, sqAnim} = this.state
+        const {squares, size, sqAnim, gameOver} = this.state
+        const {openPopup, score, highscore, lastColor} = this.state
 
         return (
             <div className="App">
@@ -118,6 +119,17 @@ class App extends React.Component {
                         <p> Don't click the same color twice </p>
                     </footer>
                 </div>
+                
+                {gameOver ? 
+                    <Popup 
+                        score={score} 
+                        best={highscore} 
+                        size={size} 
+                        color={lastColor} 
+                        isOpen={openPopup} 
+                        close={this.closePopup}
+                    />
+                : null}
             </div>
         );
     }
