@@ -41,18 +41,26 @@ class App extends React.Component {
             let setScores = (sq) => {
                 if (sq.id === id) {
                     if (sq.count === 0) {
-                        this.setState( {score: this.state.score + 1} )
+                        this.setState((prev) => ({score: prev.score + 1}), () => {
+                            if (this.state.score === 9) 
+                                this.endGame(sq);
+                        })
+
                         sq.count += 1;
 
                     } else {
-                        this.setState( {lastColor: sq.color} )
-                        this.gameOver()
+                        this.endGame(sq);
                     }
                 }
             }
 
             this.state.squares.forEach(id < 0 ? resetScores : setScores)
         }
+    }
+
+    endGame = (sq) => {
+        this.setState( {lastColor: sq.color} )
+        this.gameOver()
     }
 
     gameOver = () => {
