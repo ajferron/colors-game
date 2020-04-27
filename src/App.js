@@ -27,7 +27,7 @@ class App extends React.Component {
 
             onRepeat: (e) => this.setState((prev) => {
                 if (this.state.gameOver) 
-                    return {squares: this.state.initSquares}
+                    return {squares: [...this.state.initSquares]}
                 else
                     return {squares: prev.squares.sort(() => Math.random()-0.5)}
             }),
