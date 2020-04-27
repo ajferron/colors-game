@@ -14,49 +14,44 @@ class App extends React.Component {
             score: 0,
             highscore: 0,
             squares: [],
+            clickable: true,
             gameOver: false,
             openPopup: false,
             lastColor: null,
             sqAnim: null,
         }
+
+        animations.spin = {
+            ...animations.spin,
+            onRepeat: (e) => this.setState((prev) => ({squares: prev.squares.sort(() => Math.random()-0.5)}) ),
+            onComplete: (e) => this.setState( {clickable: true} )
+        }
     }
 
-    clickable = true
-
     countClick = (id) => {
-        if (this.clickable) {
-            let squares = [...this.state.squares];
+        if (this.state.clickable && (!this.state.gameOver || id < 0)) {
 
-            this.clickable = false;
-            this.setState( {sqAnim: animations.spin} )
-
-            setTimeout(() => {
-                squares.sort(() => Math.random() - 0.5)
-                this.setState( {squares: squares} )
-            }, 250)
-
-            setTimeout(() => {
-                this.setState( {sqAnim: null} )
-                this.clickable = true;
-            }, 500)
-
-            console.log(id)
+            this.setState({sqAnim: null}, () => this.setState({
+                sqAnim: animations.spin,
+                clickable: false
+            }))
 
             let resetScores = (sq) => { sq.count = 0 }
 
             let setScores = (sq) => {
                 if (sq.id === id) {
                     if (sq.count === 0) {
+                        this.setState( {score: this.state.score + 1} )
                         sq.count += 1;
-                        this.setState( {score: this.state.score + 1} );
+
                     } else {
                         this.setState( {lastColor: sq.color} )
-                        this.gameOver();
+                        this.gameOver()
                     }
                 }
             }
 
-            squares.forEach(id < 0 ? resetScores : setScores)
+            this.state.squares.forEach(id < 0 ? resetScores : setScores)
         }
     }
 
