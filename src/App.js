@@ -13,6 +13,7 @@ class App extends React.Component {
             size: 3,
             score: 0,
             highscore: 0,
+            initSquares: [],
             squares: [],
             clickable: true,
             gameOver: false,
@@ -23,7 +24,14 @@ class App extends React.Component {
 
         animations.spin = {
             ...animations.spin,
-            onRepeat: (e) => this.setState((prev) => ({squares: prev.squares.sort(() => Math.random()-0.5)}) ),
+
+            onRepeat: (e) => this.setState((prev) => {
+                if (this.state.gameOver) 
+                    return {squares: this.state.initSquares}
+                else
+                    return {squares: prev.squares.sort(() => Math.random()-0.5)}
+            }),
+
             onComplete: (e) => this.setState( {clickable: true} )
         }
     }
@@ -74,8 +82,9 @@ class App extends React.Component {
     }
 
     closePopup = () => {
-        this.setState({openPopup: false});
         this.countClick(-1);
+
+        this.setState({openPopup: false});
 
         setTimeout(() => {
             this.setState({
@@ -92,14 +101,15 @@ class App extends React.Component {
           '#4b7bec', '#a55eea', '#d1d8e0'
         ]
         
+        let sq = colors.map((c) => ({
+            id: uuid(),
+            color: c,
+            count: 0
+        }))
+
         this.setState({
-            squares: colors.map((c) => {
-                return {
-                    id: uuid(),
-                    color: c,
-                    count: 0
-                }
-            })
+            initSquares: sq,
+            squares: [...sq]
         })
     }
 
