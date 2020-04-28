@@ -7,5 +7,5 @@ Colors is a simple memory game built with React.js
 <br>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/45947696/80441200-68283380-88d8-11ea-8f7f-d3c19c32d42d.gif">
+  <img src="https://user-images.githubusercontent.com/45947696/80511505-2f28a700-894a-11ea-80e3-1575c92fac66.gif">
 </p>
