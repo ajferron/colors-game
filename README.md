@@ -1,8 +1,28 @@
 # Colors
 
-Colors is a simple memory game built with React.js
+A simple memory game built with React. 9 colors are displayed, you win by selecting each color without repeating.
 
-9 colors are displayed, you win by selecting each color without repeating.
+This project was completed as an exercise to learn React. 
+
+<br>
+
+## Usage
+Clone this repository. You will need node and npm installed globally.
+```
+git clone https://github.com/af3rr/colors-game.git
+```
+Use `npm install` to download dependencies.
+
+#### Development Build
+Use `npm start`
+
+
+#### Production Build
+Use `npm run build` and deploy with [`serve`](https://www.npmjs.com/package/serve)`-s build` 
+
+<br>
+
+## Demo
 
 <br>
 
