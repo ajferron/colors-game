@@ -8,8 +8,8 @@ This project was completed as an exercise to learn React.
 
 ## Usage
 Clone this repository. You will need node and npm installed globally.
-```
-git clone https://github.com/af3rr/colors-game.git
+```bash
+git clone https://github.com/ajferron/colors-game.git
 ```
 Use `npm install` to download dependencies.
 
